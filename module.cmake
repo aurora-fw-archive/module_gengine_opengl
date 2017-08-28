@@ -20,9 +20,9 @@ endif()
 include_directories(${MODULE_GENGINE_OPENGL_DIR}/include)
 include_directories(${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
 
-add_library (aurora-gengine-opengl SHARED ${MODULE_GENGINE_OPENGL_SOURCE_DIR}/OpenGL.cpp)
+add_library (aurorafw-gengine-opengl SHARED ${MODULE_GENGINE_OPENGL_SOURCE_DIR}/OpenGL.cpp)
 
-target_link_libraries(aurora-gengine-opengl
+target_link_libraries(aurorafw-gengine-opengl
 					  ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
 
-set_target_properties(aurora-gengine-opengl PROPERTIES OUTPUT_NAME aurora-gengine-opengl)
+set_target_properties(aurorafw-gengine-opengl PROPERTIES OUTPUT_NAME aurorafw-gengine-opengl)
