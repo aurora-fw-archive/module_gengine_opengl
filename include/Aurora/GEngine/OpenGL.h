@@ -8,8 +8,8 @@
 #ifndef INCLUDE_H_AURORA_GENGINE_OPENGL
 #define INCLUDE_H_AURORA_GENGINE_OPENGL
 
-#include <Aurora/GEngine/_OpenGL.h>
 #include <Aurora/GEngine/_GLEW.h>
+#include <Aurora/GEngine/_OpenGL.h>
 
 namespace Aurora {
 	namespace GEngine {
