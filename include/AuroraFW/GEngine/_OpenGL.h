@@ -16,17 +16,9 @@
 ** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 ****************************************************************************/
 
-#include <AuroraFW/GEngine/OpenGL.h>
-#include <iostream>
+#ifndef AURORAFW_GENGINE__OPENGL_H
+#define AURORAFW_GENGINE__OPENGL_H
 
-namespace AuroraFW {
-	namespace GEngine {
-		const char* getGLVersion() {
-			if(glewInit() != GLEW_OK)
-            {
-                exit(EXIT_FAILURE);
-            }
-			return (const char*) glGetString(GL_VERSION);
-		}
-	}
-}
+#include <GL/gl.h>
+
+#endif // AURORAFW_GENGINE__OPENGL_H
