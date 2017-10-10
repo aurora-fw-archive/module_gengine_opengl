@@ -23,20 +23,20 @@ if (NOT CONFIGURED_ONCE)
 	set(AURORAFW_MODULE_GENGINE_OPENGL_SOURCE_DIR ${AURORAFW_MODULE_GENGINE_OPENGL_DIR}/src)
 endif()
 
-if(OPENGL_FOUND)
-    add_definitions(-DAURORA_OPENGL_FOUND)
-endif()
-if(OPENGL_XMESA_FOUND)
-    add_definitions(-DAURORA_OPENGL_XMESA_FOUND)
-endif()
-if(OPENGL_GLU_FOUND)
-    add_definitions(-DAURORA_OPENGL_GLU_FOUND)
-endif()
-
 include_directories(${AURORAFW_MODULE_GENGINE_OPENGL_DIR}/include)
 include_directories(${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
 
 add_library (aurorafw-gengine-opengl SHARED ${AURORAFW_MODULE_GENGINE_OPENGL_SOURCE_DIR}/OpenGL.cpp)
+
+if(OPENGL_FOUND)
+	set_target_properties(aurorafw-gengine-opengl PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} -DAURORA_OPENGL_FOUND")
+endif()
+if(OPENGL_XMESA_FOUND)
+	set_target_properties(aurorafw-gengine-opengl PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} -DAURORA_OPENGL_XMESA_FOUND")
+endif()
+if(OPENGL_GLU_FOUND)
+	set_target_properties(aurorafw-gengine-opengl PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} -DAURORA_OPENGL_GLU_FOUND")
+endif()
 
 target_link_libraries(aurorafw-gengine-opengl
 					  ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
