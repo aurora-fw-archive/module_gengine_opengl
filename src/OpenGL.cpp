@@ -23,9 +23,9 @@ namespace AuroraFW {
 	namespace GEngine {
 		const char* getGLVersion() {
 			if(glewInit() != GLEW_OK)
-            {
-                exit(EXIT_FAILURE);
-            }
+			{
+				exit(EXIT_FAILURE);
+			}
 			return (const char*) glGetString(GL_VERSION);
 		}
 	}
