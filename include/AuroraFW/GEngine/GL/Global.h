@@ -16,36 +16,27 @@
 ** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 ****************************************************************************/
 
-#ifndef AURORAFW_GENGINE_GL_SHADERPROGRAM_H
-#define AURORAFW_GENGINE_GL_SHADERPROGRAM_H
+#ifndef AURORAFW_GENGINE_GL_GLOBAL_H
+#define AURORAFW_GENGINE_GL_GLOBAL_H
 
 #include <AuroraFW/Global.h>
 
+#include <AuroraFW/GEngine/_GLEW.h>
+#include <AuroraFW/GEngine/_OpenGL.h>
+
 namespace AuroraFW {
 	namespace GEngine {
-		class DuplicatedShaderTypeException : public std::exception
-		{
-		private:
-			const std::string _path;
-		public:
-			DuplicatedShaderTypeException(const char *);
-			virtual const char* what() const throw();
-		};
-
-		class AFW_EXPORT GLShaderProgram {
-		public:
-			GLShaderProgram();
-			~GLShaderProgram();
-			bool addShader(GLShader &);
-			bool addShaderFromSource(const char *);
-			bool addShaderFromSource(const std::string &);
-			bool addShaderFromFile(const char *);
-			bool addShaderFromFile(const std::string &);
-			
-			void link();
-			void bind();
-		};
+		inline GLenum GLCheckError() {return glGetError();}
+		extern bool GLLogCall(const char* , const char* file, uint_t );
 	}
 }
 
-#endif // AURORAFW_GENGINE_GL_SHADERPROGRAM_H
+#ifdef AURORAFW_DEBUG
+	#define GLCall(x) AuroraFW::GEngine::GLCheckError();\
+		x; \
+		if (!AuroraFW::GEngine::GLLogCall(#x, __FILE__, __LINE__)) AFW_DEBUGBREAK();
+#else
+	#define GLCall(x) x;
+#endif
+
+#endif // AURORAFW_GENGINE_GL_GLOBAL_H

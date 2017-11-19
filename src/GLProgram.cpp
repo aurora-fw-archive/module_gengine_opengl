@@ -16,17 +16,39 @@
 ** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 ****************************************************************************/
 
-#include <AuroraFW/GEngine/OpenGL.h>
-#include <iostream>
+#include <AuroraFW/GEngine/GL/Program.h>
+#include <AuroraFW/CLI/Log.h>
 
 namespace AuroraFW {
 	namespace GEngine {
-		const char* getGLVersion() {
-			if(glewInit() != GLEW_OK)
+		GLProgram::GLProgram(std::string name)
+			: _name(name), _program(glCreateProgram())
+		{}
+		GLProgram::GLProgram(const char* name)
+			: _name(std::string(name)), _program(glCreateProgram())
+		{}
+
+		GLuint GLProgram::generate()
+		{
+			glLinkProgram(_program);
+			GLint isLinked = 0;
+			glGetProgramiv(_program, GL_LINK_STATUS, (int *)&isLinked);
+			if(isLinked == GL_FALSE)
 			{
-				exit(EXIT_FAILURE);
+				GLint maxLength = 0;
+				glGetProgramiv(_program, GL_INFO_LOG_LENGTH, &maxLength);
+
+				//The maxLength includes the NULL character
+				GLchar* errorLog = static_cast<GLchar*>(malloc(maxLength));
+				glGetProgramInfoLog(_program, maxLength, &maxLength, errorLog);
+				CLI::Log(CLI::Error, errorLog);
+				free(errorLog);
+
+				glDeleteProgram(_program);
+
+				//Use the infoLog as you see fit.
 			}
-			return (const char*) glGetString(GL_VERSION);
+			glValidateProgram(_program);
 		}
 	}
 }

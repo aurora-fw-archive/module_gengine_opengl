@@ -1,0 +1,93 @@
+@startuml
+skinparam roundcorner 20
+skinparam arrowcolor black
+
+skinparam class {
+	backgroundColor LightGray
+	borderColor Black
+}
+
+!definelong exception(name, type = "T")
+class name <<(E,firebrick) exception>> #FCC {
+	+ name(const type)
+	..
+	+ {abstract} const type what() const throw()
+	--
+	- const type
+}
+!enddefinelong
+
+title GLSL Loader and Manager
+
+enum GLShaderType {
+	Unknown = 0x0,
+	Cached = 0x0,
+	Vertex = 0x1,
+	Fragment = 0x2,
+	Geometry = 0x4,
+	TessellationControl = 0x8,
+	TessellationEvaluation = 0x10,
+	Compute = 0x20
+}
+
+enum GLShaderParam <<GLenum>> {
+	Type = GL_SHADER_TYPE,
+	DeleteStatus = GL_DELETE_STATUS,
+	CompileStatus = GL_COMPILE_STATUS,
+	LogLength = GL_INFO_LOG_LENGTH,
+	SourceLength = GL_SHADER_SOURCE_LENGTH
+}
+
+class GLShader {
+	+ GLShader(string name, GLShaderType)
+	+ ~GLShader()
+	..
+	+ {static}GLuint importCachedSourceFileShader(string)
+	+ {static}GLuint compileShaderFromSource(string)
+	+ {static}GLuint compileShaderFromFile(string)
+	+ {static}GLint getShaderInfo(GLuint shader, GLShaderParam param)
+	+ GLuint importCachedSourceFile(string)
+	+ GLShader compileFromSource(string)
+	+ GLShader compileFromFile(string)
+	+ GLint getInfo(GLShaderParam param)
+	+ bool isCompiled()
+	+ GLuint getShader()
+	--
+	- GLint _compiled = GL_FALSE
+	- GLuint _shader
+	- GLShaderType _type
+	- string _name
+}
+
+class GLProgram {
+	+ GLProgram(string name)
+	+ GLProgram(string name, GLShader shaders[])
+	+ GLProgram(string name, GLuint shaders[])
+	+ ~GLProgram()
+	..
+	+ {static} GLuint generateProgram(GLShader shaders[])
+	+ {static} GLuint generateProgram(GLuint shaders[])
+	+ bool addShader(GLShader s)
+	+ bool addShader(GLuint shader)
+	+ bool removeShader(GLShader)
+	+ bool addShaderFromSource(GLShaderType t, string s)
+	+ bool addShaderFromFile(GLShaderType t, string f)
+	+ bool addCachedSourceFile(string)
+	+ bool isGenerated()
+	+ GLuint generate()
+	+ GLuint getProgram()
+	--
+	- GLint _generated = GL_FALSE
+	- GLuint _program
+	- string _name
+	- GLShaderType _type
+}
+
+
+exception(DuplicatedShaderException, string)
+exception(InvalidShaderException)
+exception(InvalidProgramException)
+
+GLShader - GLProgram : < have
+
+@enduml

@@ -16,26 +16,20 @@
 ** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 ****************************************************************************/
 
-#ifndef AURORAFW_GENGINE_OPENGL_H
-#define AURORAFW_GENGINE_OPENGL_H
-
-#include <AuroraFW/Global.h>
 #include <AuroraFW/GEngine/GL/Global.h>
-
-#include <AuroraFW/GEngine/_GLEW.h>
-#include <AuroraFW/GEngine/_OpenGL.h>
+#include <AuroraFW/CLI/Log.h>
 
 namespace AuroraFW {
 	namespace GEngine {
-		inline const char* getGLVersion() {
-			GLCall(const char* ret = (const char*)glGetString(GL_VERSION));
-			return ret;
-		}
-		namespace GL {
-			inline void activeShaderProgram(GLuint pipe, GLuint prog) { GLCall(glActiveShaderProgram(pipe, prog)); }
-			inline void activeTexture(GLenum texture) { GLCall(glActiveTexture(texture)); }
+		bool GLLogCall(const char* function, const char* file, uint_t line)
+		{
+			GLenum error = GLCheckError();
+			if (error != GL_NO_ERROR)
+			{
+				CLI::Log(CLI::Error, "OpenGL: (", error, "): ", function, " ", file, ":", line);
+				return false;
+			}
+			return true;
 		}
 	}
 }
-
-#endif // AURORAFW_GENGINE_OPENGL_H
