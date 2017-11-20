@@ -53,6 +53,7 @@ class GLShader {
 	+ bool isCompiled()
 	+ GLuint getShader()
 	--
+	- init()
 	- GLint _compiled = GL_FALSE
 	- GLuint _shader
 	- GLShaderType _type
