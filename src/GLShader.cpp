@@ -86,9 +86,7 @@ namespace AuroraFW {
 		}
 
 		GLuint GLShader::compileShaderFromSource(const char* src)
-		{
-			
-		}
+		{}
 
 		GLShader& GLShader::compileFromSource(const char* src)
 		{
