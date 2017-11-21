@@ -100,7 +100,7 @@ namespace AuroraFW {
 
 		inline bool GLProgram::addShader(GLShader* shader)
 		{
-			glAttachShader(_program, shader->_shader);
+			GLCall(glAttachShader(_program, shader->_shader));
 		}
 
 		inline void GLProgram::setUniform1f(const std::string &name, float val)

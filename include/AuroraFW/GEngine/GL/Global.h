@@ -31,7 +31,7 @@ namespace AuroraFW {
 	}
 }
 
-#ifdef AURORAFW_DEBUG
+#ifdef AFW__DEBUG
 	#define GLCall(x) AuroraFW::GEngine::GLCheckError();\
 		x; \
 		if (!AuroraFW::GEngine::GLLogCall(#x, __FILE__, __LINE__)) AFW_DEBUGBREAK();

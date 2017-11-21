@@ -30,7 +30,7 @@ namespace AuroraFW {
 
 		GLuint GLProgram::generate()
 		{
-			glLinkProgram(_program);
+			GLCall(glLinkProgram(_program));
 			GLint isLinked = 0;
 			glGetProgramiv(_program, GL_LINK_STATUS, (int *)&isLinked);
 			if(isLinked == GL_FALSE)
@@ -48,7 +48,7 @@ namespace AuroraFW {
 
 				//Use the infoLog as you see fit.
 			}
-			glValidateProgram(_program);
+			GLCall(glValidateProgram(_program));
 		}
 	}
 }
