@@ -32,19 +32,19 @@ namespace AuroraFW {
 		{
 			GLCall(glLinkProgram(_program));
 			GLint isLinked = 0;
-			glGetProgramiv(_program, GL_LINK_STATUS, (int *)&isLinked);
+			GLCall(glGetProgramiv(_program, GL_LINK_STATUS, (int *)&isLinked));
 			if(isLinked == GL_FALSE)
 			{
 				GLint maxLength = 0;
-				glGetProgramiv(_program, GL_INFO_LOG_LENGTH, &maxLength);
+				GLCall(glGetProgramiv(_program, GL_INFO_LOG_LENGTH, &maxLength));
 
 				//The maxLength includes the NULL character
 				GLchar* errorLog = static_cast<GLchar*>(malloc(maxLength));
-				glGetProgramInfoLog(_program, maxLength, &maxLength, errorLog);
+				GLCall(glGetProgramInfoLog(_program, maxLength, &maxLength, errorLog));
 				CLI::Log(CLI::Error, errorLog);
 				free(errorLog);
 
-				glDeleteProgram(_program);
+				GLCall(glDeleteProgram(_program));
 
 				//Use the infoLog as you see fit.
 			}

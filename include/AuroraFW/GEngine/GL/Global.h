@@ -26,7 +26,7 @@
 
 namespace AuroraFW {
 	namespace GEngine {
-		inline GLenum GLCheckError() {return glGetError();}
+		inline GLenum GLCheckError() {GLCall(GLenum ret = glGetError()); return ret;}
 		extern bool GLLogCall(const char* , const char* file, uint_t );
 	}
 }

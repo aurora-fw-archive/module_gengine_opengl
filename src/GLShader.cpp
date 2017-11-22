@@ -75,13 +75,13 @@ namespace AuroraFW {
 		GLShader::~GLShader()
 		{
 			if(_type != Cached)
-				glDeleteShader(_shader);
+				GLCall(glDeleteShader(_shader));
 		}
 
 		GLint GLShader::getInfo(GLShaderParam param)
 		{
 			GLint ret;
-			glGetShaderiv(_shader, param, &ret);
+			GLCall(glGetShaderiv(_shader, param, &ret));
 			return ret;
 		}
 
@@ -90,18 +90,18 @@ namespace AuroraFW {
 
 		GLShader& GLShader::compileFromSource(const char* src)
 		{
-			glShaderSource(_shader, 1, &src, AFW_DONTCARE);
-			glCompileShader(_shader);
+			GLCall(glShaderSource(_shader, 1, &src, AFW_DONTCARE));
+			GLCall(glCompileShader(_shader));
 			_compiled = getInfo(CompileStatus);
 			if(_compiled == GL_FALSE)
 			{
 				GLint maxLength = getInfo(LogLength);
 				GLchar* errorLog = static_cast<GLchar*>(malloc(maxLength));
-				glGetShaderInfoLog(_shader, maxLength, &maxLength, errorLog);
+				GLCall(glGetShaderInfoLog(_shader, maxLength, &maxLength, errorLog));
 				CLI::Log(CLI::Error, errorLog);
 				free(errorLog);
 
-				glDeleteShader(_shader);
+				GLCall(glDeleteShader(_shader));
 			}
 			return *this;
 		}
