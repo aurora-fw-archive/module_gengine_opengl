@@ -51,9 +51,9 @@ namespace AuroraFW {
 		class InvalidShaderException : public std::exception
 		{
 		private:
-			const std::string _str;
+			const char* _str;
 		public:
-			InvalidShaderException(const char *);
+			InvalidShaderException();
 			virtual const char* what() const throw();
 		};
 
@@ -63,8 +63,7 @@ namespace AuroraFW {
 		{
 		friend GLProgram;
 		public:
-			GLShader(GLShaderType , std::string = "Generic");
-			GLShader(GLShaderType , const char* = "Generic");
+			GLShader(GLShaderType);
 			~GLShader();
 
 			static GLuint importCachedSourceFileShader(std::string );
@@ -88,7 +87,6 @@ namespace AuroraFW {
 			void init();
 			GLuint _shader;
 			GLShaderType _type;
-			std::string _name;
 			GLint _compiled = GL_FALSE;
 		};
 	}

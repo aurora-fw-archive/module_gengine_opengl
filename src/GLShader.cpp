@@ -24,13 +24,13 @@
 
 namespace AuroraFW {
 	namespace GEngine {
-		InvalidShaderException::InvalidShaderException(const char *name)
-			: _str(std::string("Can't load " + std::string(name) + " shader."))
+		InvalidShaderException::InvalidShaderException()
+			: _str("Can't load the shader.")
 		{}
 
 		const char* InvalidShaderException::what() const throw()
 		{
-			return _str.c_str();
+			return _str;
 		}
 
 		void GLShader::init() {
@@ -55,19 +55,13 @@ namespace AuroraFW {
 					_shader = glCreateShader(GL_COMPUTE_SHADER);
 					break;
 				case Unknown:
-					throw InvalidShaderException(_name.c_str());
+					throw InvalidShaderException();
 					break;
 			};
 		}
 
-		GLShader::GLShader(GLShaderType type, std::string name)
-			: _type(type), _name(name)
-		{
-			init();
-		}
-
-		GLShader::GLShader(GLShaderType type, const char* name)
-			: _type(type), _name(std::string(name))
+		GLShader::GLShader(GLShaderType type)
+			: _type(type)
 		{
 			init();
 		}

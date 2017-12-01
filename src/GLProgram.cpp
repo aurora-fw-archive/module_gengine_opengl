@@ -21,11 +21,8 @@
 
 namespace AuroraFW {
 	namespace GEngine {
-		GLProgram::GLProgram(std::string name)
-			: _name(name), _program(glCreateProgram())
-		{}
-		GLProgram::GLProgram(const char* name)
-			: _name(std::string(name)), _program(glCreateProgram())
+		GLProgram::GLProgram()
+			: _program(glCreateProgram())
 		{}
 
 		GLuint GLProgram::generate()
