@@ -21,8 +21,7 @@
 
 #include <AuroraFW/Global.h>
 
-#include <AuroraFW/GEngine/_GLEW.h>
-#include <AuroraFW/GEngine/_OpenGL.h>
+#include <AuroraFW/GEngine/GL/Global.h>
 #include <AuroraFW/GEngine/GL/Shader.h>
 
 #include <AuroraFW/Math/Vector2D.h>

@@ -22,9 +22,6 @@
 #include <AuroraFW/Global.h>
 #include <AuroraFW/GEngine/GL/Global.h>
 
-#include <AuroraFW/GEngine/_GLEW.h>
-#include <AuroraFW/GEngine/_OpenGL.h>
-
 #include <AuroraFW/STDL/STL/String.h>
 
 namespace AuroraFW {
