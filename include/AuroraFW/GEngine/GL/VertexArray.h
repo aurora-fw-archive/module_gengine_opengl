@@ -16,11 +16,41 @@
 ** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 ****************************************************************************/
 
-#ifndef AURORAFW_GENGINE_GL_VERTEXBUFFER_H
-#define AURORAFW_GENGINE_GL_VERTEXBUFFER_H
+#ifndef AURORAFW_GENGINE_GL_VERTEXARRAY_H
+#define AURORAFW_GENGINE_GL_VERTEXARRAY_H
 
 #include <AuroraFW/Global.h>
 
 #include <AuroraFW/GEngine/GL/Global.h>
 
-#endif // AURORAFW_GENGINE_GL_VERTEXBUFFER_H
+#include <AuroraFW/GEngine/GL/Buffer.h>
+#include <AuroraFW/STDL/STL/Vector.h>
+
+namespace AuroraFW {
+	namespace GEngine {
+		//class AFW_EXPORT GLBuffer;
+		class AFW_EXPORT GLVertexArray {
+		public:
+			GLVertexArray() { GLCall(glGenVertexArrays(1, &_vao)); }
+			~GLVertexArray() { GLCall(glDeleteVertexArrays(1, &_vao)); }
+
+			void push(GLBuffer* );
+			void add(GLBuffer* , GLint , GLuint );
+			void add(GLint , GLuint );
+
+			inline void bind() const { GLCall(glBindVertexArray(_vao)); }
+			inline void unbind() const { GLCall(glBindVertexArray(0)); }
+
+		private:
+			GLuint _vao;
+			std::vector<GLBuffer*> _buffers;
+		};
+
+		inline void GLVertexArray::push(GLBuffer* buffer)
+		{
+			_buffers.push_back(buffer);
+		}
+	}
+}
+
+#endif // AURORAFW_GENGINE_GL_VERTEXARRAY_H

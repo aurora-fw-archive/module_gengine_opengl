@@ -84,7 +84,7 @@ namespace AuroraFW {
 
 		GLShader& GLShader::compileFromSource(const char* src)
 		{
-			GLCall(glShaderSource(_shader, 1, &src, AFW_DONTCARE));
+			GLCall(glShaderSource(_shader, 1, &src, AFW_NULL));
 			GLCall(glCompileShader(_shader));
 			_compiled = getInfo(CompileStatus);
 			if(_compiled == GL_FALSE)

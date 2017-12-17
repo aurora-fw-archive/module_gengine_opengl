@@ -16,55 +16,25 @@
 ** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 ****************************************************************************/
 
-#ifndef AURORAFW_GENGINE_GL_VERTEXBUFFER_H
-#define AURORAFW_GENGINE_GL_VERTEXBUFFER_H
-
-#include <AuroraFW/Global.h>
-
-#include <AuroraFW/GEngine/GL/Global.h>
+#include <AuroraFW/GEngine/GL/VertexArray.h>
 
 namespace AuroraFW {
 	namespace GEngine {
-		class AFW_EXPORT GLVertexBuffer {
-		public:
-			GLVertexBuffer(GL::BufferUsage );
-			~GLVertexBuffer();
-
-			void resize(uint );
-			void setData(uint, const void *);
-
-			void release() const;
-			void bind() const;
-			void unbind() const;
-
-			uint getSize() const;
-
-		private:
-			GLuint _buffer;
-			uint _size;
-			GL::BufferUsage _busage;
-		};
-
-		inline GLVertexBuffer::~GLVertexBuffer()
+		void GLVertexArray::add(GLBuffer* buffer, GLint size, GLuint index)
 		{
-			GLCall(glDeleteBuffers(1, &_buffer));
+			buffer->bind();
+			add(size, index);
+			buffer->unbind();
+
+			push(buffer);
 		}
 
-		inline void GLVertexBuffer::release() const
+		void GLVertexArray::add(GLint size, GLuint index)
 		{
-			GLCall(glUnmapBuffer(GL::Array));
-		}
-
-		inline void GLVertexBuffer::unbind() const
-		{
-			GLCall(glBindBuffer(GL::Array, 0));
-		}
-
-		inline uint GLVertexBuffer::getSize() const
-		{
-			return _size;
+			bind();
+			GLCall(glEnableVertexAttribArray(index));
+			GLCall(glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, 0, 0));
+			unbind();
 		}
 	}
 }
-
-#endif // AURORAFW_GENGINE_GL_VERTEXBUFFER_H

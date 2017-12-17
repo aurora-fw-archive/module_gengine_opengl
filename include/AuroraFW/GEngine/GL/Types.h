@@ -31,4 +31,7 @@
 #define GL_4_BYTES 0x1409
 #define GL_DOUBLE 0x140A
 
+typedef unsigned int GLenum;
+typedef unsigned int GLuint;
+
 #endif // AURORAFW_GENGINE_GL_TYPES_H

@@ -65,32 +65,31 @@ namespace AuroraFW {
 			};
 		}
 
+			//class AFW_EXPORT GLVertexArray;
 			class AFW_EXPORT GLBuffer {
+			//friend GLVertexArray;
 			public:
-				GLBuffer(GL::BufferType );
-				~GLBuffer();
+				GLBuffer(GLenum = GL::Array);
+				GLBuffer(GLenum , GLsizeiptr , const void* = AFW_NULL, GLenum = GL::StaticDraw);
+				inline ~GLBuffer() { GLCall(glDeleteBuffers(1, &_buffer)); }
 
-				void bind() const;
-				void unbind() const;
+				void allocate(GLenum , GLsizeiptr , const void* = AFW_NULL, GLenum = GL::StaticDraw);
+				inline void allocate(GLsizeiptr , const void* = AFW_NULL, GLenum = GL::StaticDraw);
+				inline void resize(GLsizeiptr );
+
+				inline GLuint getGLBuffer() const { return _buffer; }
+				GLsizeiptr size() const;
+				inline GLsizeiptr length() const { return size(); }
+
+				inline void bind() const { GLCall(glBindBuffer(_type, _buffer)); }
+				inline void unbind() const { GLCall(glBindBuffer(_type, 0)); }
 
 			private:
 				GLuint _buffer;
-				GL::BufferType _btype;
+				GLenum _type;
 			};
-
-			inline GLBuffer::~GLBuffer() {
-				GLCall(glDeleteBuffers(1, &_buffer));
-			}
-
-			inline void GLBuffer::bind() const
-			{
-				GLCall(glBindBuffer(_btype, _buffer));
-			}
-
-			inline void GLBuffer::unbind() const
-			{
-				GLCall(glBindBuffer(_btype, 0));
-			}
+			inline void GLBuffer::allocate(GLsizeiptr count, const void* data, GLenum usage) { allocate(_type, count, data, usage); }
+			inline void GLBuffer::resize(GLsizeiptr size) { allocate(size); }
 		}
 }
 

@@ -20,10 +20,31 @@
 
 namespace AuroraFW {
 	namespace GEngine {
-		GLBuffer::GLBuffer(GL::BufferType btype)
-			: _btype(btype)
+		GLBuffer::GLBuffer(GLenum type)
+			: _type(type)
 		{
 			GLCall(glGenBuffers(1, &_buffer));
+		}
+
+		GLBuffer::GLBuffer(GLenum type, GLsizeiptr count, const void* data, GLenum usage)
+			: _type(type)
+		{
+			GLCall(glGenBuffers(1, &_buffer));
+			allocate(type, count, data, usage);
+		}
+
+		void GLBuffer::allocate(GLenum type, GLsizeiptr count, const void* data, GLenum usage)
+		{
+			_type = type;
+			bind();
+			GLCall(glBufferData(_type, count, data, usage));
+		}
+
+		GLsizeiptr GLBuffer::size() const
+		{
+			GLint ret = 0;
+			GLCall(glGetBufferParameteriv(_type, GL_BUFFER_SIZE, &ret));
+			return ret;
 		}
 	}
 }
