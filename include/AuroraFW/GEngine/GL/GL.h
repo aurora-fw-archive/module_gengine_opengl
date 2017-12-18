@@ -34,6 +34,7 @@ namespace AuroraFW {
 				GLCall(const char* ret = (const char*)glGetString(GL_VERSION));
 				return ret;
 			}
+			inline void clearColor(GLclampf r, GLclampf g, GLclampf b, GLclampf a) { GLCall(glClearColor(r, g, b, a)); }
 		}
 	}
 }
