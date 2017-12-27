@@ -20,20 +20,21 @@
 
 namespace AuroraFW {
 	namespace GEngine {
-		void GLVertexArray::add(GLBuffer* buffer, GLint size, GLuint index)
-		{
-			buffer->bind();
-			add(size, index);
-			buffer->unbind();
-
-			push(buffer);
-		}
-
-		void GLVertexArray::add(GLint size, GLuint index)
+		void GLVertexArray::addBuffer(const GLBuffer& buf, const GLVertexBufferLayout& layout)
 		{
 			bind();
-			GLCall(glEnableVertexAttribArray(index));
-			GLCall(glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, 0, 0));
+			buf.bind();
+			const std::vector<GLVertexBufferElement> &elements = layout.getElements();
+			uint offset = 0;
+			for (uint i = 0; i < elements.size(); i++)
+			{
+				const GLVertexBufferElement &element = elements[i];
+				GLCall(glEnableVertexAttribArray(i));
+				GLCall(glVertexAttribPointer(i, element.count, element.type,
+					element.normalized, layout.getStride(), (const void *)offset));
+				offset += element.count * GLVertexBufferElement::sizeOf(element.type);
+			}
+			buf.unbind();
 			unbind();
 		}
 	}

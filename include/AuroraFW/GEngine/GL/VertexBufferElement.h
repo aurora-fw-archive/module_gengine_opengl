@@ -16,33 +16,30 @@
 ** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 ****************************************************************************/
 
-#ifndef AURORAFW_GENGINE_GL_VERTEXARRAY_H
-#define AURORAFW_GENGINE_GL_VERTEXARRAY_H
+#ifndef AURORAFW_GENGINE_GL_VERTEXBUFFERELEMENT_H
+#define AURORAFW_GENGINE_GL_VERTEXBUFFERELEMENT_H
 
 #include <AuroraFW/Global.h>
 
-#include <AuroraFW/GEngine/GL/Global.h>
-
-#include <AuroraFW/GEngine/GL/Buffer.h>
-#include <AuroraFW/GEngine/GL/VertexBufferLayout.h>
-
 namespace AuroraFW {
 	namespace GEngine {
-		//class AFW_EXPORT GLBuffer;
-		class AFW_EXPORT GLVertexArray {
-		public:
-			GLVertexArray() { GLCall(glGenVertexArrays(1, &_vao)); }
-			~GLVertexArray() { GLCall(glDeleteVertexArrays(1, &_vao)); }
+			struct AFW_EXPORT GLVertexBufferElement {
+				uint type, count;
+				byte_t normalized;
 
-			void addBuffer(const GLBuffer& , const GLVertexBufferLayout& );
-
-			inline void bind() const { GLCall(glBindVertexArray(_vao)); }
-			inline void unbind() const { GLCall(glBindVertexArray(0)); }
-
-		private:
-			GLuint _vao;
-		};
-	}
+				static constexpr uint sizeOf(uint type)
+				{
+					switch(type)
+					{
+						case GL_FLOAT: return 4;
+						case GL_UNSIGNED_INT: return 4;
+						case GL_UNSIGNED_BYTE: return 1;
+					}
+					AFW_DEBUGBREAK();
+					return 0;
+				}
+			};
+		}
 }
 
-#endif // AURORAFW_GENGINE_GL_VERTEXARRAY_H
+#endif // AURORAFW_GENGINE_GL_VERTEXBUFFERELEMENT_H
