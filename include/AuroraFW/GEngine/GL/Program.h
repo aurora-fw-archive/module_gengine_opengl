@@ -66,9 +66,9 @@ namespace AuroraFW {
 			static void enableProgram(GLuint& );
 			static void disableProgram(GLProgram* );
 			static void disableProgram(GLuint& );
-			inline void enable() const;
-			inline void disable() const;
-			inline void glValidate() const;
+			void enable() const;
+			void disable() const;
+			void glValidate() const;
 
 			void setValue(const std::string &, float );
 			void setValue(const std::string &, const Math::Vector2D& );
@@ -89,53 +89,6 @@ namespace AuroraFW {
 			GLuint _program;
 			GLShaderType _type;
 		};
-
-		inline void GLProgram::enable() const {GLCall(glUseProgram(_program));}
-		inline void GLProgram::disable() const {GLCall(glUseProgram(0));}
-
-		inline bool GLProgram::addShader(GLShader* shader)
-		{
-			GLCall(glAttachShader(_program, shader->_shader));
-		}
-
-		inline void GLProgram::setValue(const std::string &name, float val)
-		{
-			GLCall(glUniform1f(getUniformLocation(name), val));
-		}
-		inline void GLProgram::setValue(const std::string &name, const Math::Vector2D& vec)
-		{
-			GLCall(glUniform2f(getUniformLocation(name), vec.x, vec.y));
-		}
-		inline void GLProgram::setValue(const std::string &name, const Math::Vector3D& vec)
-		{
-			GLCall(glUniform3f(getUniformLocation(name), vec.x, vec.y, vec.z));
-		}
-		inline void GLProgram::setValue(const std::string &name, const Math::Vector4D& vec)
-		{
-			GLCall(glUniform4f(getUniformLocation(name), vec.x, vec.y, vec.z, vec.w));
-		}
-
-		inline void GLProgram::setValue(const std::string &name, int val)
-		{
-			GLCall(glUniform1i(getUniformLocation(name),val));
-		}
-
-		inline void GLProgram::setValue(const std::string &name, const Math::Matrix4x4& matrix)
-		{
-			GLCall(glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, (const float*)matrix.m));
-		}
-
-		inline GLint GLProgram::getUniformLocation(const std::string &name)
-		{
-			GLCall(GLint ret = glGetUniformLocation(_program, name.c_str()));
-			return ret;
-		}
-
-		inline GLint GLProgram::getUniformLocation(const char* name)
-		{
-			GLCall(GLint ret = glGetUniformLocation(_program, name));
-			return ret;
-		}
 
 		void setValue(const std::string &, Math::Vector3D& );
 		void setValue(const std::string &, Math::Vector4D& );

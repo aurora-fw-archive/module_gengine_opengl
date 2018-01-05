@@ -30,22 +30,23 @@ file(GLOB_RECURSE AURORAFW_MODULE_GENGINE_OPENGL_HEADERS ${AURORAFW_MODULE_GENGI
 file(GLOB_RECURSE AURORAFW_MODULE_GENGINE_OPENGL_SOURCE ${AURORAFW_MODULE_GENGINE_OPENGL_SOURCE_DIR}/*.*)
 
 add_library (aurorafw-gengine-opengl SHARED ${AURORAFW_MODULE_GENGINE_OPENGL_SOURCE})
+aurora_add_library_target(aurorafw-gengine-opengl)
 
 if(AURORA_PCH)
 add_precompiled_header(aurorafw-gengine-opengl "${AURORAFW_MODULE_GENGINE_OPENGL_HEADERS}")
 endif()
 
 if(OPENGL_FOUND)
-	set_target_properties(aurorafw-gengine-opengl PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} -DAURORA_OPENGL_FOUND")
+	set_target_properties(aurorafw-gengine-opengl PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} -DAFW__OPENGL_FOUND")
 endif()
 if(OPENGL_XMESA_FOUND)
-	set_target_properties(aurorafw-gengine-opengl PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} -DAURORA_OPENGL_XMESA_FOUND")
+	set_target_properties(aurorafw-gengine-opengl PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} -DAFW__OPENGL_XMESA_FOUND")
 endif()
 if(OPENGL_GLU_FOUND)
-	set_target_properties(aurorafw-gengine-opengl PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} -DAURORA_OPENGL_GLU_FOUND")
+	set_target_properties(aurorafw-gengine-opengl PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} -DAFW__OPENGL_GLU_FOUND")
 endif()
 
-target_link_libraries(aurorafw-gengine-opengl ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
+target_link_libraries(aurorafw-gengine-opengl aurorafw-cli ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
 
 set_target_properties(aurorafw-gengine-opengl PROPERTIES OUTPUT_NAME "aurorafw-gengine-opengl_${AURORA_PLATFORM_PREFIX}_${AURORA_CPUARCH_PREFIX}")
 

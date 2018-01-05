@@ -47,5 +47,62 @@ namespace AuroraFW {
 			}
 			GLCall(glValidateProgram(_program));
 		}
+
+		void GLProgram::enable() const
+		{
+			GLCall(glUseProgram(_program));
+		}
+
+		void GLProgram::disable() const
+		{
+			GLCall(glUseProgram(0));
+		}
+
+		bool GLProgram::addShader(GLShader* shader)
+		{
+			GLCall(glAttachShader(_program, shader->_shader));
+		}
+
+		void GLProgram::setValue(const std::string &name, float val)
+		{
+			GLCall(glUniform1f(getUniformLocation(name), val));
+		}
+
+		void GLProgram::setValue(const std::string &name, const Math::Vector2D& vec)
+		{
+			GLCall(glUniform2f(getUniformLocation(name), vec.x, vec.y));
+		}
+
+		void GLProgram::setValue(const std::string &name, const Math::Vector3D& vec)
+		{
+			GLCall(glUniform3f(getUniformLocation(name), vec.x, vec.y, vec.z));
+		}
+
+		void GLProgram::setValue(const std::string &name, const Math::Vector4D& vec)
+		{
+			GLCall(glUniform4f(getUniformLocation(name), vec.x, vec.y, vec.z, vec.w));
+		}
+
+		void GLProgram::setValue(const std::string &name, int val)
+		{
+			GLCall(glUniform1i(getUniformLocation(name),val));
+		}
+
+		void GLProgram::setValue(const std::string &name, const Math::Matrix4x4& matrix)
+		{
+			GLCall(glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, (const float*)matrix.m));
+		}
+
+		GLint GLProgram::getUniformLocation(const std::string &name)
+		{
+			GLCall(GLint ret = glGetUniformLocation(_program, name.c_str()));
+			return ret;
+		}
+
+		GLint GLProgram::getUniformLocation(const char* name)
+		{
+			GLCall(GLint ret = glGetUniformLocation(_program, name));
+			return ret;
+		}
 	}
 }

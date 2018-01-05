@@ -22,15 +22,17 @@
 #include <AuroraFW/Global.h>
 #include <AuroraFW/GEngine/GL/OpenGL.h>
 
+#include <windows.h>
+
 namespace AuroraFW {
 	namespace GEngine {
-		inline GLenum GLCheckError() {return glGetError();}
+		extern GLenum GLCheckError();
 		extern bool GLLogCall(const char* , const char* file, uint_t );
 	}
 }
 
 #ifdef AFW__DEBUG
-	#define GLCall(x) AuroraFW::GEngine::GLCheckError();\
+	#define GLCall(x) AuroraFW::GEngine::GLCheckError(); \
 		x; \
 		if (!AuroraFW::GEngine::GLLogCall(#x, __FILE__, __LINE__)) AFW_DEBUGBREAK();
 #else

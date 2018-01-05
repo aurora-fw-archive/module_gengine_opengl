@@ -21,7 +21,7 @@
 
 namespace AuroraFW {
 	namespace GEngine {
-		bool GLLogCall(const char* function, const char* file, uint_t line)
+		AFW_EXPORT bool GLLogCall(const char* function, const char* file, uint_t line)
 		{
 			GLenum error = GLCheckError();
 			if (error != GL_NO_ERROR)
@@ -30,6 +30,11 @@ namespace AuroraFW {
 				return false;
 			}
 			return true;
+		}
+
+		AFW_EXPORT GLenum GLCheckError()
+		{
+			return glGetError();
 		}
 	}
 }
