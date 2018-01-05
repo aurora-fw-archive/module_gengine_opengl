@@ -22,8 +22,6 @@
 #include <AuroraFW/Global.h>
 #include <AuroraFW/GEngine/GL/OpenGL.h>
 
-#include <windows.h>
-
 namespace AuroraFW {
 	namespace GEngine {
 		extern GLenum GLCheckError();
