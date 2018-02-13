@@ -28,13 +28,14 @@
 
 #include <AuroraFW/GEngine/GL/Global.h>
 
+#include <AuroraFW/GEngine/API/Context.h>
+
 namespace AuroraFW {
 	namespace GEngine {
-		class AFW_API GLContext : public Context
+		class AFW_API GLContext : public API::Context
 		{
 		public:
-			GLContext(WindowProperties );
-			void present();
+			GLContext();
 			
 			inline static GLContext* getInstance() { return (GLContext*)_instance; }
 		};

@@ -20,6 +20,9 @@
 
 namespace AuroraFW {
 	namespace GEngine {
+		GLRenderer::GLRenderer()
+		{}
+
 		uint GLRenderer::getGLRendererBuffer(uint buf)
 		{
 			uint ret = 0;
@@ -40,6 +43,26 @@ namespace AuroraFW {
 		void GLRenderer::setViewport(uint x, uint y, uint width, uint height)
 		{
 			GLCall(glViewport(x, y, width, height));
+		}
+
+		void GLRenderer::setDepthTesting(bool val)
+		{
+			if(val) {
+				GLCall(glEnable(GL_DEPTH_TEST));
+			}
+			else {
+				GLCall(glDisable(GL_DEPTH_TEST));
+			}
+		}
+
+		void GLRenderer::setBlend(bool val)
+		{
+			if(val) {
+				GLCall(glEnable(GL_BLEND));
+			}
+			else {
+				GLCall(glDisable(GL_BLEND));
+			}
 		}
 	}
 }

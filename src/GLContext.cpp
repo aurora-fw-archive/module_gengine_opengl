@@ -20,7 +20,7 @@
 
 namespace AuroraFW {
 	namespace GEngine {
-		GLContext::GLContext(WindowProperties wp)
+		GLContext::GLContext()
 		{
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
