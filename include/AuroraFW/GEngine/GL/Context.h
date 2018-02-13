@@ -35,7 +35,7 @@ namespace AuroraFW {
 		class AFW_API GLContext : public API::Context
 		{
 		public:
-			GLContext();
+			GLContext(WindowProperties );
 			
 			inline static GLContext* getInstance() { return (GLContext*)_instance; }
 		};

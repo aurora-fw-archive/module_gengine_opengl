@@ -20,7 +20,7 @@
 
 namespace AuroraFW {
 	namespace GEngine {
-		GLContext::GLContext()
+		GLContext::GLContext(WindowProperties wp)
 		{
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -30,6 +30,12 @@ namespace AuroraFW {
 			#ifdef AFW__DEBUG
 				glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 			#endif
+
+			
+			if(wp.samples > 1) {
+				GLCall(glEnable(GL_MULTISAMPLE));
+				GLCall(glEnable(GL_MULTISAMPLE_ARB));
+			}
 
 			//GLCall(glEnable(GL_CULL_FACE));
 			//GLCall(glCullFace(GL_BACK));
