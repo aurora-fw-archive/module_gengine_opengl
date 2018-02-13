@@ -46,6 +46,8 @@ namespace AuroraFW {
 				//Use the infoLog as you see fit.
 			}
 			GLCall(glValidateProgram(_program));
+
+			return _program;
 		}
 
 		void GLProgram::enable() const
@@ -58,7 +60,7 @@ namespace AuroraFW {
 			GLCall(glUseProgram(0));
 		}
 
-		bool GLProgram::addShader(GLShader* shader)
+		void GLProgram::addShader(GLShader* shader)
 		{
 			GLCall(glAttachShader(_program, shader->_shader));
 		}

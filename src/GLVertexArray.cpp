@@ -25,7 +25,7 @@ namespace AuroraFW {
 			bind();
 			buf.bind();
 			const std::vector<GLVertexBufferElement> &elements = layout.getElements();
-			uint offset = 0;
+			size_t offset = 0;
 			for (uint i = 0; i < elements.size(); i++)
 			{
 				const GLVertexBufferElement &element = elements[i];
