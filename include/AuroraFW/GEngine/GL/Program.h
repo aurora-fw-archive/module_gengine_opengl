@@ -52,10 +52,10 @@ namespace AuroraFW {
 			GLProgram(GLuint *, size_t );
 			~GLProgram();
 
-			bool addShader(GLShader* );
-			bool addShader(GLuint );
-			bool removeShader(GLShader *);
-			bool removeShader(GLuint );
+			void addShader(GLShader* );
+			void addShader(GLuint );
+			void removeShader(GLShader *);
+			void removeShader(GLuint );
 
 			bool addShaderFromSource(GLShaderType , const char *);
 			bool addShaderFromSource(GLShaderType , const std::string &);

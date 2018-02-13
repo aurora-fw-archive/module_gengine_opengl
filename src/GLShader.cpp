@@ -55,6 +55,7 @@ namespace AuroraFW {
 					_shader = glCreateShader(GL_COMPUTE_SHADER);
 					break;
 				case Unknown:
+				default:
 					throw InvalidShaderException();
 					break;
 			};
@@ -79,9 +80,6 @@ namespace AuroraFW {
 			return ret;
 		}
 
-		GLuint GLShader::compileShaderFromSource(const char* src)
-		{}
-
 		GLShader& GLShader::compileFromSource(const char* src)
 		{
 			GLCall(glShaderSource(_shader, 1, &src, AFW_NULL));
@@ -99,8 +97,5 @@ namespace AuroraFW {
 			}
 			return *this;
 		}
-
-		GLuint GLShader::compileShaderFromFile(std::string file)
-		{}
 	}
 }
