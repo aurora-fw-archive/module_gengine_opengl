@@ -20,6 +20,11 @@
 #define AURORAFW_GENGINE_GL_BUFFER_H
 
 #include <AuroraFW/Global.h>
+#if(AFW_TARGET_PRAGMA_ONCE_SUPPORT)
+	#pragma once
+#endif
+
+#include <AuroraFW/Internal/Config.h>
 
 #include <AuroraFW/GEngine/GL/Global.h>
 
@@ -65,8 +70,8 @@ namespace AuroraFW {
 			};
 		}
 
-			//class AFW_EXPORT GLVertexArray;
-			class AFW_EXPORT GLBuffer {
+			//class AFW_API GLVertexArray;
+			class AFW_API GLBuffer {
 			//friend GLVertexArray;
 			public:
 				GLBuffer(GLenum = GL::Array);

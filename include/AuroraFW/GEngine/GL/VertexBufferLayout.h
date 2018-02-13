@@ -28,7 +28,7 @@
 
 namespace AuroraFW {
 	namespace GEngine {
-		class AFW_EXPORT GLVertexBufferLayout {
+		class AFW_API GLVertexBufferLayout {
 		public:
 			GLVertexBufferLayout()
 				: _stride(0) {}

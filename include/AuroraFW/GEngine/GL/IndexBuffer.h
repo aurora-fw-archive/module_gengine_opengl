@@ -24,7 +24,7 @@
 
 namespace AuroraFW {
 	namespace GEngine {
-		class AFW_EXPORT GLIndexBuffer {
+		class AFW_API GLIndexBuffer {
 		public:
 			GLIndexBuffer(GLuint* , GLsizei );
 			~GLIndexBuffer();

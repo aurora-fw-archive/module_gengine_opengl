@@ -16,25 +16,30 @@
 ** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 ****************************************************************************/
 
-#include <AuroraFW/GEngine/GL/Global.h>
-#include <AuroraFW/CLI/Log.h>
+#include <AuroraFW/GEngine/GL/Renderer.h>
 
 namespace AuroraFW {
 	namespace GEngine {
-		AFW_API bool GLLogCall(const char* function, const char* file, uint_t line)
+		uint GLRenderer::getGLRendererBuffer(uint buf)
 		{
-			GLenum error = GLCheckError();
-			if (error != GL_NO_ERROR)
-			{
-				CLI::Log(CLI::Error, "OpenGL: (", error, "): ", function, " ", file, ":", line);
-				return false;
-			}
-			return true;
+			uint ret = 0;
+			if (buf & RENDERER_BUFFER_COLOR)
+				ret |= GL_COLOR_BUFFER_BIT;
+			if (buf & RENDERER_BUFFER_DEPTH)
+				ret |= GL_DEPTH_BUFFER_BIT;
+			if (buf & RENDERER_BUFFER_STENCIL)
+				ret |= GL_STENCIL_BUFFER_BIT;
+			return ret;
 		}
 
-		AFW_API GLenum GLCheckError()
+		void GLRenderer::clear(uint buf)
 		{
-			return glGetError();
+			GLCall(glClear(getGLRendererBuffer(buf)));
+		}
+
+		void GLRenderer::setViewport(uint x, uint y, uint width, uint height)
+		{
+			GLCall(glViewport(x, y, width, height));
 		}
 	}
 }

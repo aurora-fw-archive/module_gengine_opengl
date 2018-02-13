@@ -23,7 +23,7 @@
 
 namespace AuroraFW {
 	namespace GEngine {
-			struct AFW_EXPORT GLVertexBufferElement {
+			struct AFW_API GLVertexBufferElement {
 				uint type, count;
 				byte_t normalized;
 

@@ -56,7 +56,7 @@ namespace AuroraFW {
 
 		class GLProgram;
 		
-		class AFW_EXPORT GLShader
+		class AFW_API GLShader
 		{
 		friend GLProgram;
 		public:

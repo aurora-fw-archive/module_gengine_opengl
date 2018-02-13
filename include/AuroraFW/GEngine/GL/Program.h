@@ -20,6 +20,11 @@
 #define AURORAFW_GENGINE_GL_PROGRAM_H
 
 #include <AuroraFW/Global.h>
+#if(AFW_TARGET_PRAGMA_ONCE_SUPPORT)
+	#pragma once
+#endif
+
+#include <AuroraFW/Internal/Config.h>
 
 #include <AuroraFW/GEngine/GL/Global.h>
 #include <AuroraFW/GEngine/GL/Shader.h>
@@ -31,7 +36,7 @@
 
 namespace AuroraFW {
 	namespace GEngine {
-		class DuplicatedShaderException : public std::exception
+		class AFW_API DuplicatedShaderException : public std::exception
 		{
 		private:
 			const std::string _str;
@@ -40,7 +45,7 @@ namespace AuroraFW {
 			virtual const char* what() const throw();
 		};
 
-		class AFW_EXPORT GLProgram {
+		class AFW_API GLProgram {
 		public:
 			GLProgram();
 			GLProgram(GLShader *, size_t );

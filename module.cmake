@@ -30,7 +30,7 @@ file(GLOB_RECURSE AURORAFW_MODULE_GENGINE_OPENGL_HEADERS ${AURORAFW_MODULE_GENGI
 file(GLOB_RECURSE AURORAFW_MODULE_GENGINE_OPENGL_SOURCE ${AURORAFW_MODULE_GENGINE_OPENGL_SOURCE_DIR}/*.*)
 
 add_library (aurorafw-gengine-opengl SHARED ${AURORAFW_MODULE_GENGINE_OPENGL_SOURCE})
-aurora_add_library_target(aurorafw-gengine-opengl)
+aurora_add_library_target(aurorafw-gengine-opengl SHARED)
 
 if(AURORA_PCH)
 add_precompiled_header(aurorafw-gengine-opengl "${AURORAFW_MODULE_GENGINE_OPENGL_HEADERS}")

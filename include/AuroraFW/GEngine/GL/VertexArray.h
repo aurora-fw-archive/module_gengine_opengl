@@ -28,8 +28,8 @@
 
 namespace AuroraFW {
 	namespace GEngine {
-		//class AFW_EXPORT GLBuffer;
-		class AFW_EXPORT GLVertexArray {
+		//class AFW_API GLBuffer;
+		class AFW_API GLVertexArray {
 		public:
 			GLVertexArray() { GLCall(glGenVertexArrays(1, &_vao)); }
 			~GLVertexArray() { GLCall(glDeleteVertexArrays(1, &_vao)); }
