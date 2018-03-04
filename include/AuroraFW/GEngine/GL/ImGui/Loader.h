@@ -16,32 +16,42 @@
 ** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 ****************************************************************************/
 
-#ifndef AURORAFW_GENGINE_GL_INDEXBUFFER_H
-#define AURORAFW_GENGINE_GL_INDEXBUFFER_H
+#ifndef AURORAFW_GENGINE_GL_IMGUI_LOADER_H
+#define AURORAFW_GENGINE_GL_IMGUI_LOADER_H
 
 #include <AuroraFW/Global.h>
+#if(AFW_TARGET_PRAGMA_ONCE_SUPPORT)
+	#pragma once
+#endif
+
+#include <AuroraFW/Internal/Config.h>
+
 #include <AuroraFW/GEngine/GL/Global.h>
 
-#include <AuroraFW/GEngine/API/IndexBuffer.h>
+#include <AuroraFW/GEngine/ImGui/Loader.h>
 
 namespace AuroraFW {
 	namespace GEngine {
-		namespace API {
-			class AFW_API GLIndexBuffer : public IndexBuffer {
-			public:
-				GLIndexBuffer(uint* , uint );
-				~GLIndexBuffer();
+		class AFW_API GLImGuiLoader : public ImGuiLoader
+		{
+		public:
+			GLImGuiLoader();
 
-				void bind() const override;
-				void unbind() const override;
-				inline uint getCount() const override { return _count; }
+			bool createDeviceObjects() override;
+			void invalidateDeviceObjects() override;
+			void renderDrawLists(ImDrawData *) override;
 
-			private:
-				GLuint _ibo;
-				uint _count;
-			};
-		}
+		private:
+			void _Unload() override;
+			inline void _internalNewFrame() override { if(!_fontTexture) createDeviceObjects(); }
+
+			uint _fontTexture = 0;
+			int _shaderHandle = 0, _vertHandle = 0, _fragHandle = 0;
+			int _attribLocationTex = 0, _attribLocationProjMtx = 0;
+			int _attribLocationPosition = 0, _attribLocationUV = 0, _attribLocationColor = 0;
+			uint _vboHandle = 0, _elementsHandle = 0;
+		};
 	}
 }
 
-#endif // AURORAFW_GENGINE_GL_INDEXBUFFER_H
+#endif // AURORAFW_GENGINE_GL_IMGUI_LOADER_H

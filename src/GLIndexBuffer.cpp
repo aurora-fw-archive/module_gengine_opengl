@@ -20,26 +20,28 @@
 
 namespace AuroraFW {
 	namespace GEngine {
-		GLIndexBuffer::GLIndexBuffer(GLuint* data, GLsizei count)
-			: _count(count)
-		{
-			GLCall(glGenBuffers(1, &_ibo));
-			bind();
-			GLCall(glBufferData(GL::IndexBuffer, _count * sizeof(GLuint), data, GL::StaticDraw));
-		}
-		GLIndexBuffer::~GLIndexBuffer()
-		{
-			GLCall(glDeleteBuffers(1, &_ibo));
-		}
+		namespace API {
+			GLIndexBuffer::GLIndexBuffer(uint* data, uint count)
+				: _count(count)
+			{
+				GLCall(glGenBuffers(1, &_ibo));
+				bind();
+				GLCall(glBufferData(GL::IndexBuffer, _count * sizeof(GLuint), data, GL::StaticDraw));
+			}
+			GLIndexBuffer::~GLIndexBuffer()
+			{
+				GLCall(glDeleteBuffers(1, &_ibo));
+			}
 
-		void GLIndexBuffer::bind() const
-		{
-			GLCall(glBindBuffer(GL::IndexBuffer, _ibo));
-		}
+			void GLIndexBuffer::bind() const
+			{
+				GLCall(glBindBuffer(GL::IndexBuffer, _ibo));
+			}
 
-		void GLIndexBuffer::unbind() const
-		{
-			GLCall(glBindBuffer(GL::IndexBuffer, 0));
+			void GLIndexBuffer::unbind() const
+			{
+				GLCall(glBindBuffer(GL::IndexBuffer, 0));
+			}
 		}
 	}
 }

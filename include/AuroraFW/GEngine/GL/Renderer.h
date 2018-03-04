@@ -35,13 +35,12 @@ namespace AuroraFW {
 		{
 		public:
 			GLRenderer();
-		
-		protected:
+
 			void clear(uint ) override;
 			void setViewport(uint , uint , uint , uint ) override;
 			void setDepthTesting(bool ) override;
 			void setBlend(bool ) override;
-		public:
+
 			static uint getGLRendererBuffer(uint );
 		};
 	}
