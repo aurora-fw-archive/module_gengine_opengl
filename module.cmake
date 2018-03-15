@@ -30,9 +30,9 @@ file(GLOB_RECURSE AURORAFW_MODULE_GENGINE_OPENGL_HEADERS ${AURORAFW_MODULE_GENGI
 file(GLOB_RECURSE AURORAFW_MODULE_GENGINE_OPENGL_SOURCE ${AURORAFW_MODULE_GENGINE_OPENGL_SOURCE_DIR}/*.*)
 
 add_library (aurorafw-gengine-opengl SHARED ${AURORAFW_MODULE_GENGINE_OPENGL_SOURCE})
-aurora_add_library_target(aurorafw-gengine-opengl SHARED)
+aurorafw_add_library_target(aurorafw-gengine-opengl SHARED)
 
-if(AURORA_PCH)
+if(AURORAFW_PCH)
 add_precompiled_header(aurorafw-gengine-opengl "${AURORAFW_MODULE_GENGINE_OPENGL_HEADERS}")
 endif()
 
@@ -48,7 +48,7 @@ endif()
 
 target_link_libraries(aurorafw-gengine-opengl aurorafw-cli ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
 
-set_target_properties(aurorafw-gengine-opengl PROPERTIES OUTPUT_NAME "aurorafw-gengine-opengl_${AURORA_PLATFORM_PREFIX}_${AURORA_CPUARCH_PREFIX}")
+set_target_properties(aurorafw-gengine-opengl PROPERTIES OUTPUT_NAME "aurorafw-gengine-opengl_${AURORAFW_PLATFORM_PREFIX}_${AURORAFW_CPUARCH_PREFIX}")
 
 install(TARGETS aurorafw-gengine-opengl DESTINATION lib)
 
