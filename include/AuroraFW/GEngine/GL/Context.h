@@ -36,9 +36,10 @@ namespace AuroraFW {
 		{
 		public:
 			GLContext(WindowProperties );
-			
+
 		protected:
-			void _init() override;
+			void _init(GLFWwindow* ) override;
+			void _destroy() override;
 
 			inline static GLContext* getInstance() { return (GLContext*)_instance; }
 		};

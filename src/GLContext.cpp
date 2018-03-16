@@ -33,7 +33,7 @@ namespace AuroraFW {
 				glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 			#endif
 
-			
+
 			if(wp.samples > 1) {
 				GLCall(glEnable(GL_MULTISAMPLE));
 				GLCall(glEnable(GL_MULTISAMPLE_ARB));
@@ -47,7 +47,7 @@ namespace AuroraFW {
 			//GLCall(glEnable(GL_SAMPLE_SHADING));
 		}
 
-		void GLContext::_init()
+		void GLContext::_init(GLFWwindow* )
 		{
 			glewExperimental = GL_TRUE;
 
@@ -55,5 +55,8 @@ namespace AuroraFW {
 				throw std::runtime_error("failed to initialize GLEW!");
 			}
 		}
+
+		void GLContext::_destroy()
+		{}
 	}
 }
