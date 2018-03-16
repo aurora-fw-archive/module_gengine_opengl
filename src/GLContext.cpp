@@ -18,6 +18,8 @@
 
 #include <AuroraFW/GEngine/GL/Context.h>
 
+ #include <stdexcept>
+
 namespace AuroraFW {
 	namespace GEngine {
 		GLContext::GLContext(WindowProperties wp)
@@ -43,6 +45,15 @@ namespace AuroraFW {
 			//GLCall(glEnable(GL_DEPTH_TEST));
 			//GLCall(glEnable(GL_MULTISAMPLE));
 			//GLCall(glEnable(GL_SAMPLE_SHADING));
+		}
+
+		void GLContext::_init()
+		{
+			glewExperimental = GL_TRUE;
+
+			if(glewInit() != GLEW_OK) {
+				throw std::runtime_error("failed to initialize GLEW!");
+			}
 		}
 	}
 }
