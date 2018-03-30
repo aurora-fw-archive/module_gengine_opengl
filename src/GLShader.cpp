@@ -61,7 +61,7 @@ namespace AuroraFW {
 			};
 		}
 
-		GLShader::GLShader(GLShaderType type)
+		GLShader::GLShader(GLShader::ShaderType type)
 			: _type(type)
 		{
 			init();
@@ -73,7 +73,7 @@ namespace AuroraFW {
 				GLCall(glDeleteShader(_shader));
 		}
 
-		GLint GLShader::getInfo(GLShaderParam param)
+		GLint GLShader::getInfo(GLShader::Parameter param)
 		{
 			GLint ret;
 			GLCall(glGetShaderiv(_shader, param, &ret));

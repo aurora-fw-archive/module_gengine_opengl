@@ -23,28 +23,10 @@
 #include <AuroraFW/GEngine/GL/Global.h>
 
 #include <AuroraFW/STDL/STL/String.h>
+#include <AuroraFW/GEngine/RTShader.h>
 
 namespace AuroraFW {
 	namespace GEngine {
-		enum GLShaderType {
-			Unknown = 0x31,
-			Cached = 0x32,
-			Vertex = 0x1,
-			Fragment = 0x2,
-			Geometry = 0x4,
-			TessellationControl = 0x8,
-			TessellationEvaluation = 0x10,
-			Compute = 0x20
-		};
-
-		enum GLShaderParam : GLenum {
-			Type = GL_SHADER_TYPE,
-			DeleteStatus = GL_DELETE_STATUS,
-			CompileStatus = GL_COMPILE_STATUS,
-			LogLength = GL_INFO_LOG_LENGTH,
-			SourceLength = GL_SHADER_SOURCE_LENGTH
-		};
-
 		class InvalidShaderException : public std::exception
 		{
 		private:
@@ -56,11 +38,30 @@ namespace AuroraFW {
 
 		class GLProgram;
 		
-		class AFW_API GLShader
+		class AFW_API GLShader : public RTShader
 		{
 		friend GLProgram;
 		public:
-			GLShader(GLShaderType);
+			enum Parameter : GLenum {
+				Type = GL_SHADER_TYPE,
+				DeleteStatus = GL_DELETE_STATUS,
+				CompileStatus = GL_COMPILE_STATUS,
+				LogLength = GL_INFO_LOG_LENGTH,
+				SourceLength = GL_SHADER_SOURCE_LENGTH
+			};
+
+			enum ShaderType : uint {
+				Unknown = 0x31,
+				Cached = 0x32,
+				Vertex = 0x1,
+				Fragment = 0x2,
+				Geometry = 0x4,
+				TessellationControl = 0x8,
+				TessellationEvaluation = 0x10,
+				Compute = 0x20
+			};
+
+			GLShader(ShaderType);
 			~GLShader();
 
 			static GLuint importCachedSourceFileShader(std::string );
@@ -69,21 +70,21 @@ namespace AuroraFW {
 			static GLuint compileShaderFromSource(const char* );
 			static GLuint compileShaderFromFile(std::string );
 			static GLuint compileShaderFromFile(const char* );
-			static GLint getShaderInfo(GLuint, GLShaderParam );
+			static GLint getShaderInfo(GLuint, Parameter );
 			GLShader& importCachedSourceFile(const char *);
 			GLShader& importCachedSourceFile(std::string );
 			GLShader& compileFromSource(const std::string &);
 			GLShader& compileFromSource(const char *);
 			GLShader& compileFromFile(const std::string );
 			GLShader& compileFromFile(const char* );
-			GLint getInfo(GLShaderParam );
+			GLint getInfo(Parameter );
 			bool isCompiled();
 			GLuint getShader();
 
 		private:
 			void init();
 			GLuint _shader;
-			GLShaderType _type;
+			ShaderType _type;
 			GLint _compiled = GL_FALSE;
 		};
 	}

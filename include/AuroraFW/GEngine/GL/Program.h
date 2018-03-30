@@ -57,10 +57,10 @@ namespace AuroraFW {
 			void removeShader(GLShader *);
 			void removeShader(GLuint );
 
-			bool addShaderFromSource(GLShaderType , const char *);
-			bool addShaderFromSource(GLShaderType , const std::string &);
-			bool addShaderFromFile(GLShaderType , const char *);
-			bool addShaderFromFile(GLShaderType , const std::string &);
+			bool addShaderFromSource(GLShader::ShaderType , const char *);
+			bool addShaderFromSource(GLShader::ShaderType , const std::string &);
+			bool addShaderFromFile(GLShader::ShaderType , const char *);
+			bool addShaderFromFile(GLShader::ShaderType , const std::string &);
 			bool addCachedSourceFile(const char *);
 			bool addCachedSourceFile(std::string );
 
@@ -92,7 +92,7 @@ namespace AuroraFW {
 		private:
 			GLint _generated = GL_FALSE;
 			GLuint _program;
-			GLShaderType _type;
+			GLShader::ShaderType _type;
 		};
 
 		void setValue(const std::string &, Math::Vector3D& );

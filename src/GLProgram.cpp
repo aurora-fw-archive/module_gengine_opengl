@@ -90,9 +90,9 @@ namespace AuroraFW {
 			GLCall(glUniform1i(getUniformLocation(name),val));
 		}
 
-		void GLProgram::setValue(const std::string &name, const Math::Matrix4x4& matrix)
+		void GLProgram::setValue(const std::string &name, const Math::Matrix4x4& mat)
 		{
-			GLCall(glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, (const float*)matrix.m));
+			GLCall(glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, (const float*)mat.matrix));
 		}
 
 		GLint GLProgram::getUniformLocation(const std::string &name)

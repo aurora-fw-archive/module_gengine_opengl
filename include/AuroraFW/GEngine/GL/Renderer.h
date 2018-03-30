@@ -27,7 +27,7 @@
 #include <AuroraFW/Internal/Config.h>
 #include <AuroraFW/GEngine/GL/Global.h>
 
-#include <AuroraFW/GEngine/Renderer.h>
+#include <AuroraFW/GEngine/API/Renderer.h>
 
 namespace AuroraFW {
 	namespace GEngine {
