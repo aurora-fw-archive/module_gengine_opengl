@@ -22,11 +22,11 @@ namespace AuroraFW {
 	namespace GEngine {
 		namespace API {
 			GLIndexBuffer::GLIndexBuffer(uint* data, uint count)
-				: _count(count)
 			{
+				_count = count;
 				GLCall(glGenBuffers(1, &_ibo));
 				bind();
-				GLCall(glBufferData(GL::IndexBuffer, _count * sizeof(GLuint), data, GL::StaticDraw));
+				GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, _count * sizeof(GLuint), data, GL_STATIC_DRAW));
 			}
 			GLIndexBuffer::~GLIndexBuffer()
 			{
@@ -35,12 +35,12 @@ namespace AuroraFW {
 
 			void GLIndexBuffer::bind() const
 			{
-				GLCall(glBindBuffer(GL::IndexBuffer, _ibo));
+				GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo));
 			}
 
 			void GLIndexBuffer::unbind() const
 			{
-				GLCall(glBindBuffer(GL::IndexBuffer, 0));
+				GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 			}
 		}
 	}

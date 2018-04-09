@@ -16,34 +16,50 @@
 ** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 ****************************************************************************/
 
-#include <AuroraFW/GEngine/GL/VertexArray.h>
+#include <AuroraFW/GEngine/GL/Texture.h>
+#include <AuroraFW/Image/STB/Image.h>
 
 namespace AuroraFW::GEngine::API {
-	GLVertexArray::GLVertexArray()
+	GLTexture::GLTexture(const std::string& path)
+		: _id(AFW_NULLVAL)
 	{
-		GLCall(glGenVertexArrays(1, &_vao));
-	}
+		_path = path;
+		_width = AFW_NULLVAL;
+		_height = AFW_NULLVAL;
+		_bpp = AFW_NULLVAL;
+		_rawbuf = AFW_NULLPTR;
 
-	GLVertexArray::~GLVertexArray()
-	{
-		GLCall(glDeleteVertexArrays(1, &_vao));
-	}
+		stbi_set_flip_vertically_on_load(1);
+		_rawbuf = stbi_load(_path.c_str(), &_width, &_height, &_bpp, 4);
 
-	void GLVertexArray::addBuffer(const Buffer* buf, const BufferLayout* layout)
-	{
-		bind();
-		buf->bind();
-		const std::vector<BufferElement> &elements = layout->getElements();
-		size_t offset = 0;
-		for (uint i = 0; i < elements.size(); i++)
-		{
-			const BufferElement &element = elements[i];
-			GLCall(glEnableVertexAttribArray(i));
-			GLCall(glVertexAttribPointer(i, element.count, element.type,
-				element.normalized, layout->getStride(), (const void *)offset));
-			offset += element.count * element.size;
-		}
-		buf->unbind();
+		GLCall(glGenTextures(1, &_id));
+		GLCall(glBindTexture(GL_TEXTURE_2D, _id));
+
+		GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
+		GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
+		GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+		GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+
+		GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _rawbuf));
 		unbind();
+
+		if(_rawbuf)
+			stbi_image_free(_rawbuf);
+	}
+
+	GLTexture::~GLTexture()
+	{
+		GLCall(glDeleteTextures(1, &_id));
+	}
+
+	void GLTexture::bind(uint slot) const
+	{
+		GLCall(glActiveTexture(GL_TEXTURE0 + slot));
+		GLCall(glBindTexture(GL_TEXTURE_2D, _id));
+	}
+
+	void GLTexture::unbind(uint slot) const
+	{
+		GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 	}
 }

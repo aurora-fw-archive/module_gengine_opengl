@@ -20,31 +20,37 @@
 
 namespace AuroraFW {
 	namespace GEngine {
-		GLBuffer::GLBuffer(GLenum type)
-			: _type(type)
-		{
-			GLCall(glGenBuffers(1, &_buffer));
-		}
+		namespace API {
+			GLBuffer::GLBuffer(Buffer::Type type)
+			: _type(getGLType(type))
+			{
+				GLCall(glGenBuffers(1, &_buffer));
+			}
 
-		GLBuffer::GLBuffer(GLenum type, GLsizeiptr count, const void* data, GLenum usage)
-			: _type(type)
-		{
-			GLCall(glGenBuffers(1, &_buffer));
-			allocate(type, count, data, usage);
-		}
+			GLBuffer::~GLBuffer()
+			{
+				GLCall(glDeleteBuffers(1, &_buffer));
+			}
 
-		void GLBuffer::allocate(GLenum type, GLsizeiptr count, const void* data, GLenum usage)
-		{
-			_type = type;
-			bind();
-			GLCall(glBufferData(_type, count, data, usage));
-		}
+			GLBuffer::GLBuffer(Buffer::Type type, const void* data, size_t count, Buffer::Usage usage)
+				: _type(getGLType(type))
+			{
+				GLCall(glGenBuffers(1, &_buffer));
+				allocate(data, count, usage);
+			}
 
-		GLsizeiptr GLBuffer::size() const
-		{
-			GLint ret = 0;
-			GLCall(glGetBufferParameteriv(_type, GL_BUFFER_SIZE, &ret));
-			return ret;
+			void GLBuffer::allocate(const void* data, size_t count, Buffer::Usage usage)
+			{
+				bind();
+				GLCall(glBufferData(_type, count, data, getGLUsage(usage)));
+			}
+
+			size_t GLBuffer::size() const
+			{
+				GLint ret = AFW_NULLVAL;
+				GLCall(glGetBufferParameteriv(_type, GL_BUFFER_SIZE, &ret));
+				return ret;
+			}
 		}
 	}
 }

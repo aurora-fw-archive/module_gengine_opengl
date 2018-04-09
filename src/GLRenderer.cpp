@@ -17,52 +17,70 @@
 ****************************************************************************/
 
 #include <AuroraFW/GEngine/GL/Renderer.h>
+namespace AuroraFW::GEngine::API {
+	GLRenderer::GLRenderer()
+	{}
 
-namespace AuroraFW {
-	namespace GEngine {
-		GLRenderer::GLRenderer()
-		{}
+	unsigned GLRenderer::getGLRendererBuffer(unsigned buf)
+	{
+		unsigned ret = 0;
+		if (buf & RendererBufferType::Color)
+			ret |= GL_COLOR_BUFFER_BIT;
+		if (buf & RendererBufferType::Depth)
+			ret |= GL_DEPTH_BUFFER_BIT;
+		if (buf & RendererBufferType::Stencil)
+			ret |= GL_STENCIL_BUFFER_BIT;
+		return ret;
+	}
 
-		uint GLRenderer::getGLRendererBuffer(uint buf)
-		{
-			uint ret = 0;
-			if (buf & RENDERER_BUFFER_COLOR)
-				ret |= GL_COLOR_BUFFER_BIT;
-			if (buf & RENDERER_BUFFER_DEPTH)
-				ret |= GL_DEPTH_BUFFER_BIT;
-			if (buf & RENDERER_BUFFER_STENCIL)
-				ret |= GL_STENCIL_BUFFER_BIT;
-			return ret;
+	void GLRenderer::clear(uint buf)
+	{
+		GLCall(glClear(getGLRendererBuffer(buf)));
+	}
+
+	void GLRenderer::setViewport(uint x, uint y, uint width, uint height)
+	{
+		GLCall(glViewport(x, y, width, height));
+	}
+
+	void GLRenderer::setDepthTesting(bool val)
+	{
+		if(val) {
+			GLCall(glEnable(GL_DEPTH_TEST));
 		}
-
-		void GLRenderer::clear(uint buf)
-		{
-			GLCall(glClear(getGLRendererBuffer(buf)));
+		else {
+			GLCall(glDisable(GL_DEPTH_TEST));
 		}
+	}
 
-		void GLRenderer::setViewport(uint x, uint y, uint width, uint height)
-		{
-			GLCall(glViewport(x, y, width, height));
+	void GLRenderer::setBlend(bool val)
+	{
+		if(val) {
+			GLCall(glEnable(GL_BLEND));
 		}
+		else {
+			GLCall(glDisable(GL_BLEND));
+		}
+	}
 
-		void GLRenderer::setDepthTesting(bool val)
-		{
-			if(val) {
-				GLCall(glEnable(GL_DEPTH_TEST));
-			}
-			else {
-				GLCall(glDisable(GL_DEPTH_TEST));
-			}
-		}
+	void GLRenderer::draw(const API::VertexArray* vao, const API::IndexBuffer* ibo, const RTShaderPipeline* shader) const
+	{
+		shader->bind();
+		vao->bind();
+		ibo->bind();
+		GLCall(glDrawElements(GL_TRIANGLES, ibo->count(), GL_UNSIGNED_INT, AFW_NULLPTR));
+		ibo->unbind();
+		vao->unbind();
+		shader->unbind();
+	}
 
-		void GLRenderer::setBlend(bool val)
-		{
-			if(val) {
-				GLCall(glEnable(GL_BLEND));
-			}
-			else {
-				GLCall(glDisable(GL_BLEND));
-			}
-		}
+	void GLRenderer::setBlendFunction(BlendFunction src, BlendFunction dest)
+	{
+		GLCall(glBlendFunc(getGLBlendFunction(src), getGLBlendFunction(dest)));
+	}
+
+	void GLRenderer::setBlendEquation(BlendEquation eq)
+	{
+		GLCall(glBlendEquation(getGLBlendEquation(eq)));
 	}
 }

@@ -23,26 +23,23 @@
 
 #include <AuroraFW/GEngine/GL/Global.h>
 
-#include <AuroraFW/GEngine/GL/Buffer.h>
-#include <AuroraFW/GEngine/GL/VertexBufferLayout.h>
+#include <AuroraFW/GEngine/API/VertexArray.h>
 
-namespace AuroraFW {
-	namespace GEngine {
+namespace AuroraFW::GEngine::API {
 		//class AFW_API GLBuffer;
-		class AFW_API GLVertexArray {
-		public:
-			GLVertexArray() { GLCall(glGenVertexArrays(1, &_vao)); }
-			~GLVertexArray() { GLCall(glDeleteVertexArrays(1, &_vao)); }
+	class AFW_API GLVertexArray : public VertexArray {
+	public:
+		GLVertexArray();
+		~GLVertexArray();
 
-			void addBuffer(const GLBuffer& , const GLVertexBufferLayout& );
+		void addBuffer(const Buffer* , const BufferLayout* ) override;
 
-			inline void bind() const { GLCall(glBindVertexArray(_vao)); }
-			inline void unbind() const { GLCall(glBindVertexArray(0)); }
+		inline void bind() const override { GLCall(glBindVertexArray(_vao)); }
+		inline void unbind() const override { GLCall(glBindVertexArray(0)); }
 
-		private:
-			GLuint _vao;
-		};
-	}
+	private:
+		GLuint _vao;
+	};
 }
 
 #endif // AURORAFW_GENGINE_GL_VERTEXARRAY_H

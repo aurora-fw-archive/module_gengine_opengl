@@ -46,7 +46,7 @@ if(OPENGL_GLU_FOUND)
 	set_target_properties(aurorafw-gengine-opengl PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} -DAFW__OPENGL_GLU_FOUND")
 endif()
 
-target_link_libraries(aurorafw-gengine-opengl aurorafw-cli ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
+target_link_libraries(aurorafw-gengine-opengl aurorafw-cli ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES} aurorafw-image)
 
 set_target_properties(aurorafw-gengine-opengl PROPERTIES OUTPUT_NAME "aurorafw-gengine-opengl_${AURORAFW_PLATFORM_PREFIX}_${AURORAFW_CPUARCH_PREFIX}")
 

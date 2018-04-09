@@ -29,21 +29,45 @@
 
 #include <AuroraFW/GEngine/API/Renderer.h>
 
-namespace AuroraFW {
-	namespace GEngine {
-		class AFW_API GLRenderer : public Renderer
+namespace AuroraFW::GEngine::API {
+	class AFW_API GLRenderer : public Renderer
+	{
+	public:
+		GLRenderer();
+
+		void clear(uint ) override;
+		void setViewport(uint , uint , uint , uint ) override;
+		void setDepthTesting(bool ) override;
+		void setBlend(bool ) override;
+		void setBlendFunction(BlendFunction , BlendFunction ) override;
+		void setBlendEquation(BlendEquation ) override;
+		void draw(const API::VertexArray* , const API::IndexBuffer* , const RTShaderPipeline* ) const override;
+
+		static unsigned getGLRendererBuffer(unsigned );
+		static inline AFW_CONSTEXPR unsigned getGLBlendFunction(BlendFunction bfunc)
 		{
-		public:
-			GLRenderer();
+			switch(bfunc)
+			{
+				case BlendFunction::None: return 0;
+				case BlendFunction::Zero: return GL_ZERO;
+				case BlendFunction::One: return GL_ONE;
+				case BlendFunction::SourceAlpha: return GL_SRC_ALPHA;
+				case BlendFunction::DestinationAlpha: return GL_DST_ALPHA;
+				case BlendFunction::OneMinusSourceAlpha: return GL_ONE_MINUS_SRC_ALPHA;
+			}
+		}
 
-			void clear(uint ) override;
-			void setViewport(uint , uint , uint , uint ) override;
-			void setDepthTesting(bool ) override;
-			void setBlend(bool ) override;
-
-			static uint getGLRendererBuffer(uint );
-		};
-	}
+		static inline AFW_CONSTEXPR unsigned getGLBlendEquation(BlendEquation beq)
+		{
+			switch(beq)
+			{
+				case BlendEquation::None: return 0;
+				case BlendEquation::Add: return GL_FUNC_ADD;
+				case BlendEquation::Subtract: return GL_FUNC_SUBTRACT;
+				case BlendEquation::ReverseSubtract: return GL_FUNC_REVERSE_SUBTRACT;
+			}
+		}
+	};
 }
 
 #endif // AURORAFW_GENGINE_GL_RENDERER_H

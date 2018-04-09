@@ -28,74 +28,54 @@
 
 #include <AuroraFW/GEngine/GL/Global.h>
 
-#define GL_ARRAY_BUFFER 0x8892
-#define GL_ELEMENT_ARRAY_BUFFER 0x8893
-#define GL_PIXEL_PACK_BUFFER 0x88EB
-#define GL_PIXEL_UNPACK_BUFFER 0x88EC
-
-#define GL_STREAM_DRAW 0x88E0
-#define GL_STREAM_READ 0x88E1
-#define GL_STREAM_COPY 0x88E2
-#define GL_STATIC_DRAW 0x88E4
-#define GL_STATIC_READ 0x88E5
-#define GL_STATIC_COPY 0x88E6
-#define GL_DYNAMIC_DRAW 0x88E8
-#define GL_DYNAMIC_READ 0x88E9
-#define GL_DYNAMIC_COPY 0x88EA
+#include <AuroraFW/GEngine/API/Buffer.h>
 
 namespace AuroraFW {
 	namespace GEngine {
-		namespace GL {
-			enum BufferType : GLenum
-			{
-				Array = GL_ARRAY_BUFFER,
-				VertexBuffer = GL_ARRAY_BUFFER,
-				ElementArray = GL_ELEMENT_ARRAY_BUFFER,
-				IndexBuffer = GL_ELEMENT_ARRAY_BUFFER,
-				PixelPack = GL_PIXEL_PACK_BUFFER,
-				PixelUnpack = GL_PIXEL_UNPACK_BUFFER
-			};
-
-			enum BufferUsage : GLenum
-			{
-				StreamDraw = GL_STREAM_DRAW,
-				StreamRead = GL_STREAM_READ,
-				StreamCopy = GL_STREAM_COPY,
-				StaticDraw = GL_STATIC_DRAW,
-				StaticRead = GL_STATIC_READ,
-				StaticCopy = GL_STATIC_COPY,
-				DynamicDraw = GL_DYNAMIC_DRAW,
-				DynamicRead = GL_DYNAMIC_READ,
-				DynamicCopy = GL_DYNAMIC_COPY
-			};
-		}
-
-			//class AFW_API GLVertexArray;
-			class AFW_API GLBuffer {
+		namespace API {
+			class AFW_API GLBuffer : public Buffer {
 			//friend GLVertexArray;
 			public:
-				GLBuffer(GLenum = GL::Array);
-				GLBuffer(GLenum , GLsizeiptr , const void* = AFW_NULL, GLenum = GL::StaticDraw);
-				inline ~GLBuffer() { GLCall(glDeleteBuffers(1, &_buffer)); }
+				GLBuffer(Buffer::Type );
+				GLBuffer(Buffer::Type , const void* , size_t , Buffer::Usage );
+				~GLBuffer();
 
-				void allocate(GLenum , GLsizeiptr , const void* = AFW_NULL, GLenum = GL::StaticDraw);
-				inline void allocate(GLsizeiptr , const void* = AFW_NULL, GLenum = GL::StaticDraw);
-				inline void resize(GLsizeiptr );
+				void allocate(const void* , size_t , Buffer::Usage = Buffer::Usage::Static);
+				inline void resize(size_t size) override { allocate(AFW_NULLPTR, size); }
 
-				inline GLuint getGLBuffer() const { return _buffer; }
-				GLsizeiptr size() const;
-				inline GLsizeiptr length() const { return size(); }
+				AFW_FORCE_INLINE GLuint getGLBuffer() const { return _buffer; }
+				size_t size() const override;
 
 				inline void bind() const { GLCall(glBindBuffer(_type, _buffer)); }
 				inline void unbind() const { GLCall(glBindBuffer(_type, 0)); }
 
+				inline static AFW_CONSTEXPR GLenum getGLType(Buffer::Type t)
+				{
+					switch(t)
+					{
+						case Buffer::Type::Array:
+						case Buffer::Type::VertexBuffer: return GL_ARRAY_BUFFER;
+						case Buffer::Type::ElementArray:
+						case Buffer::Type::IndexBuffer: return GL_ELEMENT_ARRAY_BUFFER;
+						case Buffer::Type::PixelPack: return GL_PIXEL_PACK_BUFFER;
+						case Buffer::Type::PixelUnpack: return GL_PIXEL_UNPACK_BUFFER;
+					}
+				}
+
+				inline static AFW_CONSTEXPR GLenum getGLUsage(Buffer::Usage u)
+				{
+					switch(u)
+					{
+						case Buffer::Usage::Static: return GL_STATIC_DRAW;
+						case Buffer::Usage::Dynamic: return GL_DYNAMIC_DRAW;
+					}
+				}
 			private:
 				GLuint _buffer;
 				GLenum _type;
 			};
-			inline void GLBuffer::allocate(GLsizeiptr count, const void* data, GLenum usage) { allocate(_type, count, data, usage); }
-			inline void GLBuffer::resize(GLsizeiptr size) { allocate(size); }
 		}
+	}
 }
 
 #endif // AURORAFW_GENGINE_GL_BUFFER_H

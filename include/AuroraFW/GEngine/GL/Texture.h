@@ -16,30 +16,31 @@
 ** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 ****************************************************************************/
 
-#ifndef AURORAFW_GENGINE_GL_INDEXBUFFER_H
-#define AURORAFW_GENGINE_GL_INDEXBUFFER_H
+#ifndef AURORAFW_GENGINE_GL_TEXTURE_H
+#define AURORAFW_GENGINE_GL_TEXTURE_H
 
 #include <AuroraFW/Global.h>
+#if(AFW_TARGET_PRAGMA_ONCE_SUPPORT)
+	#pragma once
+#endif
+
+#include <AuroraFW/Internal/Config.h>
 #include <AuroraFW/GEngine/GL/Global.h>
 
-#include <AuroraFW/GEngine/API/IndexBuffer.h>
+#include <AuroraFW/GEngine/API/Texture.h>
 
-namespace AuroraFW {
-	namespace GEngine {
-		namespace API {
-			class AFW_API GLIndexBuffer : public IndexBuffer {
-			public:
-				GLIndexBuffer(uint* , uint );
-				~GLIndexBuffer();
+namespace AuroraFW::GEngine::API {
+	class AFW_API GLTexture : public Texture {
+	public:
+		GLTexture(const std::string& );
+		~GLTexture();
 
-				void bind() const override;
-				void unbind() const override;
+		void bind(uint = 0) const override;
+		void unbind(uint = 0) const override;
 
-			private:
-				GLuint _ibo;
-			};
-		}
-	}
+	protected:
+		GLuint _id;
+	};
 }
 
-#endif // AURORAFW_GENGINE_GL_INDEXBUFFER_H
+#endif // AURORAFW_GENGINE_GL_TEXTURE_H
