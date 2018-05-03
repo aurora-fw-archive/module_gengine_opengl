@@ -29,8 +29,8 @@ include_directories(${OPENGL_INCLUDE_DIRS} ${GLEW_INCLUDE_DIRS})
 file(GLOB_RECURSE AURORAFW_MODULE_GENGINE_OPENGL_HEADERS ${AURORAFW_MODULE_GENGINE_OPENGL_DIR}/include/*.*)
 file(GLOB_RECURSE AURORAFW_MODULE_GENGINE_OPENGL_SOURCE ${AURORAFW_MODULE_GENGINE_OPENGL_SOURCE_DIR}/*.*)
 
-add_library (aurorafw-gengine-opengl SHARED ${AURORAFW_MODULE_GENGINE_OPENGL_SOURCE})
-aurorafw_add_library_target(aurorafw-gengine-opengl SHARED)
+add_library (aurorafw-gengine-opengl STATIC ${AURORAFW_MODULE_GENGINE_OPENGL_SOURCE})
+aurorafw_add_library_target(aurorafw-gengine-opengl STATIC)
 
 if(AURORAFW_PCH)
 add_precompiled_header(aurorafw-gengine-opengl "${AURORAFW_MODULE_GENGINE_OPENGL_HEADERS}")

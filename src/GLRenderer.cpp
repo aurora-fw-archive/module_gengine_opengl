@@ -62,6 +62,11 @@ namespace AuroraFW::GEngine::API {
 			GLCall(glDisable(GL_BLEND));
 		}
 	}
+	
+	void GLRenderer::setClearColor(ColorF color)
+	{
+		GLCall(glClearColor(color.r, color.g, color.b, color.a));
+	}
 
 	void GLRenderer::draw(const API::VertexArray* vao, const API::IndexBuffer* ibo, const RTShaderPipeline* shader) const
 	{
@@ -69,9 +74,22 @@ namespace AuroraFW::GEngine::API {
 		vao->bind();
 		ibo->bind();
 		GLCall(glDrawElements(GL_TRIANGLES, ibo->count(), GL_UNSIGNED_INT, AFW_NULLPTR));
+#ifdef AFW__DEBUG
 		ibo->unbind();
 		vao->unbind();
 		shader->unbind();
+#endif // AFW__DEBUG
+	}
+
+	void GLRenderer::draw(const API::VertexArray* vao, const API::IndexBuffer* ibo, uint count) const
+	{
+		vao->bind();
+		ibo->bind();
+		GLCall(glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, AFW_NULLPTR));
+#ifdef AFW__DEBUG
+		ibo->unbind();
+		vao->unbind();
+#endif // AFW__DEBUG
 	}
 
 	void GLRenderer::setBlendFunction(BlendFunction src, BlendFunction dest)

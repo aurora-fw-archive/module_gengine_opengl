@@ -72,9 +72,10 @@ namespace AuroraFW::GEngine::API {
 		return ret;
 	}
 
-	void GLRTShader::compileFromSource(const char* src)
+	void GLRTShader::compileFromSource(std::string src)
 	{
-		GLCall(glShaderSource(_shader, 1, &src, AFW_NULL));
+		const char *c_str = src.c_str();
+		GLCall(glShaderSource(_shader, 1, &c_str, AFW_NULL));
 		GLCall(glCompileShader(_shader));
 		_compiled = getGLInfo(GLParameter::CompileStatus);
 		if(_compiled == GL_FALSE)
@@ -95,6 +96,6 @@ namespace AuroraFW::GEngine::API {
 	void GLRTShader::importCachedFile(const std::string& )
 	{}
 
-	void GLRTShader::importCachedSource(const char* )
+	void GLRTShader::importCachedSource(std::string )
 	{}
 }

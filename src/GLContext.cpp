@@ -31,6 +31,8 @@ namespace AuroraFW {
 			glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 			#ifdef AFW__DEBUG
 				glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
+				glEnable(GL_DEBUG_OUTPUT);
+				glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 			#endif
 
 

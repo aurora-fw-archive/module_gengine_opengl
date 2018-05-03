@@ -63,8 +63,8 @@ namespace AuroraFW::GEngine::API {
 		static GLint getShaderInfo(GLuint, GLParameter );
 
 		void importCachedFile(const std::string& ) override;
-		void importCachedSource(const char* ) override;
-		void compileFromSource(const char* ) override;
+		void importCachedSource(std::string ) override;
+		void compileFromSource(std::string ) override;
 		void compileFromFile(const std::string& ) override;
 		AFW_FORCE_INLINE bool isCompiled() const override { return _compiled; }
 

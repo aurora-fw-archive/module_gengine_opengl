@@ -16,8 +16,8 @@
 ** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 ****************************************************************************/
 
-#ifndef AURORAFW_GENGINE_GL_TEXTURE_H
-#define AURORAFW_GENGINE_GL_TEXTURE_H
+#ifndef AURORAFW_GENGINE_GL_TEXTURE2D_H
+#define AURORAFW_GENGINE_GL_TEXTURE2D_H
 
 #include <AuroraFW/Global.h>
 #if(AFW_TARGET_PRAGMA_ONCE_SUPPORT)
@@ -27,18 +27,25 @@
 #include <AuroraFW/Internal/Config.h>
 #include <AuroraFW/GEngine/GL/Global.h>
 
-#include <AuroraFW/GEngine/API/Texture.h>
+#include <AuroraFW/GEngine/API/Texture2D.h>
 
 namespace AuroraFW::GEngine::API {
-	class AFW_API GLTexture : public Texture {
+	class AFW_API GLTexture2D : public Texture2D {
 	public:
-		GLTexture(const std::string& );
-		~GLTexture();
+		GLTexture2D();
+		~GLTexture2D();
+
+		AFW_FORCE_INLINE GLuint getGLHandleID() const { return _id; }
 
 		void bind(uint = 0) const override;
 		void unbind(uint = 0) const override;
 
-	protected:
+		void setData(const void* ) override;
+
+		static uint FormatToGL(Texture::Format format);
+		static uint WrapToGL(Texture::Wrap wrap);
+
+	private:
 		GLuint _id;
 	};
 }

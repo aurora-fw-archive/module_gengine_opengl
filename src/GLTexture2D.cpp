@@ -16,18 +16,14 @@
 ** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 ****************************************************************************/
 
-#include <AuroraFW/GEngine/GL/Texture.h>
+#include <AuroraFW/GEngine/GL/Texture2D.h>
 #include <AuroraFW/Image/STB/Image.h>
+#include <iostream>
 
 namespace AuroraFW::GEngine::API {
-	GLTexture::GLTexture(const std::string& path)
-		: _id(AFW_NULLVAL)
+	GLTexture2D::GLTexture2D()
 	{
-		_path = path;
-		_width = AFW_NULLVAL;
-		_height = AFW_NULLVAL;
-		_bpp = AFW_NULLVAL;
-		_rawbuf = AFW_NULLPTR;
+		void* _rawbuf;
 
 		stbi_set_flip_vertically_on_load(1);
 		_rawbuf = stbi_load(_path.c_str(), &_width, &_height, &_bpp, 4);
@@ -47,19 +43,24 @@ namespace AuroraFW::GEngine::API {
 			stbi_image_free(_rawbuf);
 	}
 
-	GLTexture::~GLTexture()
+	GLTexture2D::~GLTexture2D()
 	{
 		GLCall(glDeleteTextures(1, &_id));
 	}
 
-	void GLTexture::bind(uint slot) const
+	void GLTexture2D::bind(uint slot) const
 	{
 		GLCall(glActiveTexture(GL_TEXTURE0 + slot));
 		GLCall(glBindTexture(GL_TEXTURE_2D, _id));
 	}
 
-	void GLTexture::unbind(uint slot) const
+	void GLTexture2D::unbind(uint slot) const
 	{
 		GLCall(glBindTexture(GL_TEXTURE_2D, 0));
+	}
+
+	void GLTexture2D::setData(const void* /*data*/)
+	{
+		#pragma message ("TODO: Need to be implemented")
 	}
 }

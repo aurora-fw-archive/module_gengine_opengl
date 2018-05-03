@@ -18,8 +18,17 @@
 
 #include <AuroraFW/GEngine/GL/RTShaderPipeline.h>
 #include <AuroraFW/CLI/Log.h>
+#include <vector>
 
 namespace AuroraFW::GEngine::API {
+	GLRTShaderPipeline::GLRTShaderPipeline(std::vector<RTShader*> shaders)
+		: _program(glCreateProgram())
+	{
+		for(auto const& shader: shaders)
+			addShader(reinterpret_cast<GLRTShader*>(shader));
+		generate();
+	}
+
 	GLRTShaderPipeline::GLRTShaderPipeline()
 		: _program(glCreateProgram())
 	{}

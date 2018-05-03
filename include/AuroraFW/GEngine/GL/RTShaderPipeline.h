@@ -75,7 +75,7 @@ namespace AuroraFW::GEngine::API {
 		void setValue(const std::string &, const Math::Vector4D**, size_t ) override;
 		void setValue(const std::string &, int ) override;
 		void setValue(const std::string &, int *, size_t ) override;
-		void setValue(const std::string &, const Math::Matrix4x4 &);
+		void setValue(const std::string &, const Math::Matrix4x4 &) override;
 		GLint getUniformLocation(const std::string &);
 		GLint getUniformLocation(const char* );
 

@@ -32,7 +32,7 @@ namespace AuroraFW::GEngine::API {
 		GLVertexArray();
 		~GLVertexArray();
 
-		void addBuffer(const Buffer* , const BufferLayout* ) override;
+		void addBuffer(const VertexBuffer* , const BufferLayout* ) override;
 
 		inline void bind() const override { GLCall(glBindVertexArray(_vao)); }
 		inline void unbind() const override { GLCall(glBindVertexArray(0)); }

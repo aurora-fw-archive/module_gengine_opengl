@@ -17,6 +17,7 @@
 ****************************************************************************/
 
 #include <AuroraFW/GEngine/GL/VertexArray.h>
+#include <AuroraFW/Core/DebugManager.h>
 
 namespace AuroraFW::GEngine::API {
 	GLVertexArray::GLVertexArray()
@@ -29,21 +30,26 @@ namespace AuroraFW::GEngine::API {
 		GLCall(glDeleteVertexArrays(1, &_vao));
 	}
 
-	void GLVertexArray::addBuffer(const Buffer* buf, const BufferLayout* layout)
+	void GLVertexArray::addBuffer(const VertexBuffer* buf, const BufferLayout* layout)
 	{
+		_buffers.push_back(buf);
+		DebugManager::Log("Add buffer into a VAO");
 		bind();
-		buf->bind();
 		const std::vector<BufferElement> &elements = layout->getElements();
 		size_t offset = 0;
-		for (uint i = 0; i < elements.size(); i++)
+		for (uint i = 0; i < _buffers.size(); i++)
 		{
+			_buffers[i]->bind();
 			const BufferElement &element = elements[i];
+			DebugManager::Log("VertexArray[", i, ", ", _buffers[i], "] = ", element.count, ", ", element.type, ", ", element.normalized, ", ", layout->getStride(), ", ", offset, ", ", element.size);
 			GLCall(glEnableVertexAttribArray(i));
 			GLCall(glVertexAttribPointer(i, element.count, element.type,
-				element.normalized, layout->getStride(), (const void *)offset));
+				(uint)element.normalized, 0/*layout->getStride()*/, /*(const void *)offset*/0));
 			offset += element.count * element.size;
+			_buffers[i]->unbind();
 		}
-		buf->unbind();
+#ifdef AFW__DEBUG
 		unbind();
+#endif // AFW__DEBUG
 	}
 }
